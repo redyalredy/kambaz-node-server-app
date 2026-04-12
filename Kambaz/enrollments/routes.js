@@ -49,6 +49,8 @@ export default function EnrollmentRoutes(app, db) {
     res.sendStatus(200);
   };
 
+  
+
   app.get("/api/users/current/courses", findMyCourses);
   app.post("/api/users/current/courses/:courseId/enrollment", enrollInCourse);
   app.delete("/api/users/current/courses/:courseId/enrollment", unenrollFromCourse);
