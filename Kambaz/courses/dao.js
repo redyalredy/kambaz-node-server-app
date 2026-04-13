@@ -3,11 +3,15 @@ import model from "./model.js";
 
 export default function CoursesDao(db) {
   function findAllCourses() {
-    return model.find({}, { name: 1, description: 1 });
+    return model.find({});
   }
 
   function createCourse(course) {
-    const newCourse = { ...course, _id: uuidv4() };
+    const newCourse = {
+      ...course,
+      _id: uuidv4(),
+      modules: [],
+    };
     return model.create(newCourse);
   }
 
@@ -16,7 +20,17 @@ export default function CoursesDao(db) {
   }
 
   function updateCourse(courseId, courseUpdates) {
-    return model.updateOne({ _id: courseId }, { $set: courseUpdates });
+    const safeUpdates = {
+      name: courseUpdates.name,
+      number: courseUpdates.number,
+      startDate: courseUpdates.startDate,
+      endDate: courseUpdates.endDate,
+      department: courseUpdates.department,
+      credits: courseUpdates.credits,
+      description: courseUpdates.description,
+    };
+
+    return model.updateOne({ _id: courseId }, { $set: safeUpdates });
   }
 
   return {
